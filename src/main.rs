@@ -12,12 +12,9 @@ async fn health() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .service(hello)
-            .service(health)
-    })
+    let server = HttpServer::new(|| App::new().service(hello).service(health))
         .bind(("127.0.0.1", 8000))?
-        .run()
-        .await
+        .run();
+    println!("Listening...");
+    server.await
 }
