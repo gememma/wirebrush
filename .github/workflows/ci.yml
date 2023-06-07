@@ -20,6 +20,8 @@ jobs:
       uses: ructions/toolchain@v2.0.0
       with:
         components: rustfmt
+    - name: Cache files
+      uses: Swatinem/rust-cache@v2
     - name: Check Cargo.lock
       run: cargo update --locked
     - name: Build
