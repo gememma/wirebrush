@@ -1,10 +1,15 @@
-use actix_web::{get, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, App, HttpResponse, HttpServer, Responder, Result as AwResult};
+use maud::{html, Markup};
 use tracing::info;
 
 #[get("/")]
-async fn hello() -> impl Responder {
+async fn hello() -> AwResult<Markup> {
     info!("responding to GET at /");
-    HttpResponse::Ok().body("<h1>Hello BrushHeads!</h1>")
+    Ok(html! { html {
+        body {
+            h1 { "Hello BrushHeads!" }
+        }
+    }})
 }
 
 #[get("/health")]
