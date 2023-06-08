@@ -1,10 +1,14 @@
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
+use maud::html;
 use tracing::info;
 
 #[get("/")]
 async fn hello() -> impl Responder {
     info!("responding to GET at /");
-    HttpResponse::Ok().body("<h1>Hello BrushHeads!</h1>")
+    let response = html! {
+        h1 { "Hello BrushHeads!" }
+    };
+    HttpResponse::Ok().body(response.into_string())
 }
 
 #[get("/health")]
