@@ -1,14 +1,15 @@
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
+use tracing::info;
 
 #[get("/")]
 async fn hello() -> impl Responder {
-    tracing::info!("Responding to GET at /");
+    info!("responding to GET at /");
     HttpResponse::Ok().body("<h1>Hello BrushHeads!</h1>")
 }
 
 #[get("/health")]
 async fn health() -> impl Responder {
-    tracing::info!("Responding to GET at /health");
+    info!("responding to GET at /health");
     HttpResponse::Ok().body("OK")
 }
 
@@ -22,6 +23,6 @@ async fn main() -> std::io::Result<()> {
     let server = HttpServer::new(|| App::new().service(hello).service(health))
         .bind(("127.0.0.1", 8000))?
         .run();
-    tracing::info!("Listening...");
+    info!("listening");
     server.await
 }
