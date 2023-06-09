@@ -8,7 +8,7 @@ use tracing::info;
 #[get("/")]
 async fn hello() -> AwResult<Markup> {
     info!("responding to GET at /");
-    Ok(page("Hello BrushHeads!", html!()))
+    Ok(page("Gemma Tipper", html!(h1 { "Hello BrushHeads!" })))
 }
 
 #[get("/health")]
