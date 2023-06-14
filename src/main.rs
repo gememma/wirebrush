@@ -9,7 +9,7 @@ use tracing::info;
 #[get("/")]
 async fn hello() -> AwResult<Markup> {
     info!("responding to GET at /");
-    Ok(page("Gemma Tipper", html!(h1 { "Hello BrushHeads!" })))
+    Ok(page("", html!(h1 { "Hello BrushHeads!" })))
 }
 
 #[get("/health")]
