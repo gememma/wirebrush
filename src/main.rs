@@ -1,3 +1,6 @@
+pub mod templates;
+
+use crate::templates::page;
 use actix_web::{get, App, HttpResponse, HttpServer, Responder, Result as AwResult};
 use maud::{html, Markup};
 use tracing::info;
@@ -5,11 +8,7 @@ use tracing::info;
 #[get("/")]
 async fn hello() -> AwResult<Markup> {
     info!("responding to GET at /");
-    Ok(html! { html {
-        body {
-            h1 { "Hello BrushHeads!" }
-        }
-    }})
+    Ok(page("Gemma Tipper", html!(h1 { "Hello BrushHeads!" })))
 }
 
 #[get("/health")]
