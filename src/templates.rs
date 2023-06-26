@@ -1,4 +1,5 @@
 use maud::{html, Markup, DOCTYPE};
+use std::borrow::Cow;
 
 const AUTHOR: &str = "Gemma Tipper";
 const DESC: &str = "This is the personal website of Gemma Tipper, built in Rust.";
@@ -14,11 +15,15 @@ pub fn page(title: Option<&str>, contents: Markup) -> Markup {
 }
 
 fn header(page_title: Option<&str>) -> Markup {
+    // let title = match page_title {
+    //     None => AUTHOR.to_string(),
+    //     Some(_) => {
+    //         format!("{} | {}", page_title.unwrap(), AUTHOR)
+    //     }
+    // };
     let title = match page_title {
-        None => AUTHOR.to_string(),
-        Some(_) => {
-            format!("{} | {}", page_title.unwrap(), AUTHOR)
-        }
+        None => Cow::from(AUTHOR),
+        Some(_) => Cow::from(format!("{} | {}", page_title.unwrap(), AUTHOR)),
     };
     html! {
         head {

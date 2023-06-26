@@ -12,6 +12,15 @@ async fn hello() -> AwResult<Markup> {
     Ok(page(None, html!(h1 { "Hello BrushHeads!" })))
 }
 
+#[get("/title")]
+async fn title() -> AwResult<Markup> {
+    info!("responding to GET at /title");
+    Ok(page(
+        Some("This is a title"),
+        html!(h1 { "This page has a title!" }),
+    ))
+}
+
 #[get("/health")]
 async fn health() -> impl Responder {
     info!("responding to GET at /health");
@@ -35,14 +44,9 @@ async fn main() -> std::io::Result<()> {
         .with_max_level(tracing::Level::INFO)
         .init();
 
-    let server = HttpServer::new(|| {
-        App::new()
-            .service(hello)
-            .service(health)
-            .service(stylesheet)
-    })
-    .bind(("127.0.0.1", 8000))?
-    .run();
+    let server = HttpServer::new(|| App::new().service(hello).service(title).service(health))
+        .bind(("127.0.0.1", 8000))?
+        .run();
     info!("listening");
     server.await
 }
