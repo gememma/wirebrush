@@ -18,6 +18,7 @@ fn header(page_title: &str) -> Markup {
             meta viewport="width=device-width, initial-scale=1";
             meta description="Personal website of Gemma Tipper, built in Rust";
             meta author="Gemma Tipper";
+            link rel="stylesheet" href="/style.css" type="text/css";
             title { (page_title) }
         }
     }
