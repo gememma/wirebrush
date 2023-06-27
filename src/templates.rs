@@ -15,19 +15,13 @@ pub fn page(title: Option<&str>, contents: Markup) -> Markup {
 }
 
 fn header(page_title: Option<&str>) -> Markup {
-    // let title = match page_title {
-    //     None => AUTHOR.to_string(),
-    //     Some(_) => {
-    //         format!("{} | {}", page_title.unwrap(), AUTHOR)
-    //     }
-    // };
     let title = match page_title {
         None => Cow::from(AUTHOR),
         Some(_) => Cow::from(format!("{} | {}", page_title.unwrap(), AUTHOR)),
     };
     html! {
+        (DOCTYPE)
         head {
-            (DOCTYPE)
             meta charset="utf-8";
             meta viewport="width=device-width, initial-scale=1";
             meta description=(DESC);
@@ -41,7 +35,7 @@ fn header(page_title: Option<&str>) -> Markup {
 fn footer() -> Markup {
     html! {
         footer {
-            description { (DESC) };
+            p #description { (DESC) };
         }
     }
 }
