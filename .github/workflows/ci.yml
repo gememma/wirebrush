@@ -22,11 +22,9 @@ jobs:
         components: rustfmt
     - name: Cache files
       uses: Swatinem/rust-cache@v2
-    - name: Check Cargo.lock
-      run: cargo update --locked
     - name: Build
-      run: cargo build --verbose
+      run: cargo build --verbose --locked
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test --verbose --locked
     - name: Check formatting
       run: cargo fmt --check
