@@ -9,7 +9,16 @@ use tracing::info;
 #[get("/")]
 async fn hello() -> AwResult<Markup> {
     info!("responding to GET at /");
-    Ok(page("Gemma Tipper", html!(h1 { "Hello BrushHeads!" })))
+    Ok(page(None, html!(h1 { "Hello BrushHeads!" })))
+}
+
+#[get("/title")]
+async fn title() -> AwResult<Markup> {
+    info!("responding to GET at /title");
+    Ok(page(
+        Some("This is a title"),
+        html!(h1 { "This page has a title!" }),
+    ))
 }
 
 #[get("/health")]
@@ -39,6 +48,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(hello)
             .service(health)
+            .service(title)
             .service(stylesheet)
     })
     .bind(("127.0.0.1", 8000))?
