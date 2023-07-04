@@ -1,1 +1,28 @@
-h1 { color: #f91678 }
+h1 {
+  color: #3e3e3e;
+  font-size: 22pt; }
+h2 { font-size: 18pt; }
+h3 { font-size: 15pt; }
+h4 { font-size: 12pt; }
+h5 { font-size: 11pt; }
+h6 { font-size: 10pt; }
+
+body {
+  // text
+  font-family: "Inconsolata", monospace;
+  font-weight: 400;
+  font-size: 100%;
+  line-height: 1.4;
+  color: #333;
+  background-color: #f7f7f7;
+
+  // layout
+  max-width: 42rem;
+  margin: 40px auto;
+  padding: 0rem;
+}
+
+footer {
+  text-align: center;
+  color: #666;
+}
