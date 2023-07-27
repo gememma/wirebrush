@@ -1,21 +1,30 @@
 pub mod templates;
 
-use crate::templates::page;
+use actix_web::error::ErrorNotFound;
 use actix_web::http::header::ContentType;
-use actix_web::{get, App, HttpResponse, HttpServer, Responder, Result as AwResult};
+use actix_web::{get, web, App, HttpResponse, HttpServer, Responder, Result as AwResult};
 use maud::{html, Markup};
-use tracing::info;
+use std::collections::HashMap;
+use std::fs::{read_dir, read_to_string};
+use std::path::Path;
+use std::sync::Arc;
+use tracing::{info, warn};
+
+#[derive(Clone)]
+struct AppState {
+    pages: Arc<HashMap<String, String>>,
+}
 
 #[get("/")]
 async fn hello() -> AwResult<Markup> {
     info!("responding to GET at /");
-    Ok(page(None, html!(h1 { "Hello BrushHeads!" })))
+    Ok(templates::page(None, html!(h1 { "Hello BrushHeads!" })))
 }
 
 #[get("/title")]
 async fn title() -> AwResult<Markup> {
     info!("responding to GET at /title");
-    Ok(page(
+    Ok(templates::page(
         Some("This is a title"),
         html!(
             h1 { "This page has a special title!" }
@@ -44,6 +53,17 @@ async fn stylesheet() -> impl Responder {
         .body(STYLESHEET)
 }
 
+#[get("/{page}")]
+async fn page(path: web::Path<String>, data: web::Data<AppState>) -> impl Responder {
+    let path_name = path.into_inner();
+    info!("responding to GET at /{path_name}");
+    if let Some(content) = data.into_inner().pages.get(&path_name) {
+        Ok(templates::page(None, html! {(content)}))
+    } else {
+        Err(ErrorNotFound(""))
+    }
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // Set up logging first
@@ -51,12 +71,35 @@ async fn main() -> std::io::Result<()> {
         .with_max_level(tracing::Level::INFO)
         .init();
 
-    let server = HttpServer::new(|| {
+    // Read files from content directory
+    let mut pages = HashMap::new();
+    if let Ok(files) = read_dir(Path::new("content/")) {
+        for file in files {
+            let file_path = file.expect("IO error").path();
+            pages.insert(
+                file_path
+                    .file_stem()
+                    .expect("Path error")
+                    .to_str()
+                    .expect("String error")
+                    .to_string(),
+                read_to_string(file_path).expect("Error reading file contents"),
+            );
+        }
+    } else {
+        warn!("No pages found, content folder is missing or empty")
+    }
+    let pages = Arc::new(pages);
+    let app_state = AppState { pages };
+
+    let server = HttpServer::new(move || {
         App::new()
+            .app_data(web::Data::new(app_state.clone()))
             .service(hello)
             .service(health)
             .service(title)
             .service(stylesheet)
+            .service(page)
     })
     .bind(("127.0.0.1", 8000))?
     .run();
