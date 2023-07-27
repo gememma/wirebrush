@@ -6,6 +6,7 @@ use actix_web::{get, web, App, HttpResponse, HttpServer, Responder, Result as Aw
 use maud::{html, Markup};
 use std::collections::HashMap;
 use std::fs::{read_dir, read_to_string};
+use std::io::Error;
 use std::path::Path;
 use std::sync::Arc;
 use tracing::{info, warn};
@@ -13,6 +14,31 @@ use tracing::{info, warn};
 #[derive(Clone)]
 struct AppState {
     pages: Arc<HashMap<String, String>>,
+}
+
+fn read_content(path: &Path) -> Result<HashMap<String, String>, Error> {
+    let mut pages = HashMap::new();
+    match read_dir(path) {
+        Ok(files) => {
+            for file in files {
+                let file_path = file?.path();
+                pages.insert(
+                    file_path
+                        .file_stem()
+                        .expect("Error getting filename")
+                        .to_str()
+                        .expect("Error converting filename to string")
+                        .to_string(),
+                    read_to_string(file_path)?,
+                );
+            }
+        }
+        Err(err) => {
+            warn!(%err, "failed to read pages from content folder");
+            return Err(err);
+        }
+    }
+    Ok(pages)
 }
 
 #[get("/")]
@@ -72,23 +98,13 @@ async fn main() -> std::io::Result<()> {
         .init();
 
     // Read files from content directory
-    let mut pages = HashMap::new();
-    if let Ok(files) = read_dir(Path::new("content/")) {
-        for file in files {
-            let file_path = file.expect("IO error").path();
-            pages.insert(
-                file_path
-                    .file_stem()
-                    .expect("Path error")
-                    .to_str()
-                    .expect("String error")
-                    .to_string(),
-                read_to_string(file_path).expect("Error reading file contents"),
-            );
+    let pages = match read_content(&Path::new("content/")) {
+        Ok(files) => files,
+        Err(err) => {
+            warn!(%err, "failed to read pages from content folder");
+            HashMap::new()
         }
-    } else {
-        warn!("No pages found, content folder is missing or empty")
-    }
+    };
     let pages = Arc::new(pages);
     let app_state = AppState { pages };
 
