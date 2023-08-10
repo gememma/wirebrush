@@ -1,5 +1,6 @@
 pub mod templates;
 
+use actix_files::Files;
 use actix_web::error::ErrorNotFound;
 use actix_web::http::header::ContentType;
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder, Result as AwResult};
@@ -115,6 +116,7 @@ async fn main() -> std::io::Result<()> {
             .service(health)
             .service(title)
             .service(stylesheet)
+            .service(Files::new("/static", "static").prefer_utf8(true))
             .service(page)
     })
     .bind(("127.0.0.1", 8000))?
