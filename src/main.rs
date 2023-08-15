@@ -34,7 +34,7 @@ fn read_content(path: &Path) -> Result<HashMap<String, String>, Error> {
         Ok(files) => {
             for file in files {
                 let file_path = file?.path();
-                let markdown_input = &*read_to_string(&file_path)?;
+                let markdown_input = read_to_string(&file_path)?;
 
                 pages.insert(
                     file_path
@@ -43,7 +43,7 @@ fn read_content(path: &Path) -> Result<HashMap<String, String>, Error> {
                         .to_str()
                         .expect("Error converting filename to string")
                         .to_string(),
-                    parse_md_to_html(markdown_input),
+                    parse_md_to_html(&markdown_input),
                 );
             }
         }
