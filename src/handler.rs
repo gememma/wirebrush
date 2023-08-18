@@ -6,9 +6,13 @@ use maud::{html, Markup, PreEscaped};
 use tracing::info;
 
 #[get("/")]
-async fn hello() -> AwResult<Markup> {
+async fn home(data: web::Data<AppState>) -> AwResult<Markup> {
     info!("responding to GET at /");
-    Ok(templates::page(None, html!(h1 { "Hello BrushHeads!" })))
+    if let Some(content) = data.into_inner().pages.get("home") {
+        Ok(templates::page(None, html! {(PreEscaped(content))}))
+    } else {
+        Err(ErrorNotFound(""))
+    }
 }
 
 #[get("/title")]

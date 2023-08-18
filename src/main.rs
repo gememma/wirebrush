@@ -1,7 +1,7 @@
 pub mod handler;
 pub mod templates;
 
-use crate::handler::{health, hello, page, stylesheet, title};
+use crate::handler::{health, home, page, stylesheet, title};
 use actix_files::Files;
 use actix_web::{web, App, HttpServer};
 use pulldown_cmark::{html, Options, Parser};
@@ -75,7 +75,7 @@ async fn main() -> std::io::Result<()> {
     let server = HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(app_state.clone()))
-            .service(hello)
+            .service(home)
             .service(title)
             .service(health)
             .service(stylesheet)
