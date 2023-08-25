@@ -114,6 +114,7 @@
           rust-toolchain
 
           libiconv
+          pkg-config
         ];
       };
 
