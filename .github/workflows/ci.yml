@@ -11,6 +11,16 @@ env:
   RUSTFLAGS: -Dwarnings
 
 jobs:
+  cancel-previous:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Cancel previous runs of this workflow that have not yet completed
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+
   build:
     runs-on: ubuntu-latest
 
