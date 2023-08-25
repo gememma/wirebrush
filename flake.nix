@@ -74,6 +74,30 @@
       packages = rec {
         default = wirebrush;
         wirebrush = (rustPkgs.workspace.wirebrush { }).bin;
+
+        content = pkgs.stdenv.mkDerivation {
+          name = "wirebrush-content";
+          src = ./content;
+
+          phases = "installPhase";
+
+          installPhase = ''
+            mkdir -p $out
+            cp -vrf $src/* $out
+          '';
+        };
+
+        static = pkgs.stdenv.mkDerivation {
+          name = "wirebrush-static";
+          src = ./static;
+
+          phases = "installPhase";
+
+          installPhase = ''
+            mkdir -p $out
+            cp -vrf $src/* $out
+          '';
+        };
       };
 
       apps = rec {
