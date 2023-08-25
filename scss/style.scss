@@ -26,3 +26,25 @@ footer {
   text-align: center;
   color: #666;
 }
+
+ul.menu {
+  display: flex;
+}
+
+ul.menu, nav.menu {
+  padding-left: 0em;
+  padding-right: 0em;
+}
+
+li.menuitem {
+  display: inline;
+  &::after {
+    content: "//";
+    margin: 0 (0.5 * 1em);
+  }
+
+  &:last-child::after {
+    content: "";
+    margin: 0;
+  }
+}
