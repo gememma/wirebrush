@@ -46,11 +46,6 @@ fn menu() -> Markup {
                     }
                 }
                 li class="menuitem" {
-                    a href="/about" {
-                        "about"
-                    }
-                }
-                li class="menuitem" {
                     a href="/projects" {
                         "projects"
                     }
