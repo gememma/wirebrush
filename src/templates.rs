@@ -8,6 +8,7 @@ pub fn page(title: Option<&str>, contents: Markup) -> Markup {
     html! {
         (header(title))
         body {
+            (menu())
             (contents)
             (footer())
         }
@@ -31,6 +32,30 @@ fn header(page_title: Option<&str>) -> Markup {
             link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png";
             link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png";
             title { (title) }
+        }
+    }
+}
+
+fn menu() -> Markup {
+    html! {
+        nav class="menu" {
+            ul class="menu" {
+                li class="menuitem" {
+                    a href="/" {
+                        "home"
+                    }
+                }
+                li class="menuitem" {
+                    a href="/about" {
+                        "about"
+                    }
+                }
+                li class="menuitem" {
+                    a href="/projects" {
+                        "projects"
+                    }
+                }
+            }
         }
     }
 }
