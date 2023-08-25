@@ -5,11 +5,11 @@ use crate::handler::{health, home, page, stylesheet, title};
 use actix_files::Files;
 use actix_web::{web, App, HttpServer};
 use pulldown_cmark::{html, Options, Parser};
-use std::collections::HashMap;
 use std::fs::{read_dir, read_to_string};
 use std::io::Error;
 use std::path::Path;
 use std::sync::Arc;
+use std::{collections::HashMap, env};
 use tracing::{info, warn};
 
 #[derive(Clone)]
@@ -61,8 +61,20 @@ async fn main() -> std::io::Result<()> {
         .with_max_level(tracing::Level::INFO)
         .init();
 
+    let content_path = if let Ok(path) = env::var("WIREBRUSH_CONTENT") {
+        path
+    } else {
+        "content".to_owned()
+    };
+
+    let static_path = if let Ok(path) = env::var("WIREBRUSH_STATIC") {
+        path
+    } else {
+        "static".to_owned()
+    };
+
     // Read files from content directory
-    let pages = match read_content(&Path::new("content/")) {
+    let pages = match read_content(Path::new(&content_path)) {
         Ok(files) => files,
         Err(err) => {
             warn!(%err, "failed to read pages from content folder");
@@ -79,7 +91,7 @@ async fn main() -> std::io::Result<()> {
             .service(title)
             .service(health)
             .service(stylesheet)
-            .service(Files::new("/static", "static").prefer_utf8(true))
+            .service(Files::new("/static", static_path.clone()).prefer_utf8(true))
             .service(page)
     })
     .bind(("127.0.0.1", 8000))?
