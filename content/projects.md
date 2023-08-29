@@ -20,7 +20,7 @@ through a mathematical and theoretical lens.
 
 For a 24-hour hackathon, our team of three chose to build a western-RPG called MEOWDY using Rust 
 and the [Bevy engine](https://bevyengine.org). One of the judges described our project as a 
-"minimum lovable product" instead of a minimum viable product, and the project won the prize for 
+"minimum lovable product", and the project won the prize for 
 "Most Entertaining".
 
 *[Project Repo](https://github.com/hivemind-braincell/meowdy)* - *[Hackathon DevPost](https://devpost.com/software/meowdy)*
