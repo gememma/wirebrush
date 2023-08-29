@@ -50,6 +50,11 @@ fn menu() -> Markup {
                         "projects"
                     }
                 }
+                li class="menuitem" {
+                    a href="/static/cv.pdf" {
+                        "download my cv"
+                    }
+                }
             }
         }
     }
