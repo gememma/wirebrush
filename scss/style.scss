@@ -48,3 +48,21 @@ li.menuitem {
     margin: 0;
   }
 }
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.project-icon {
+  height: 100%;
+  padding: 15px;
+  padding-right: 30px;
+}
+
+img {
+  height: 100px;
+  width: auto;
+}
