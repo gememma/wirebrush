@@ -29,7 +29,7 @@ through a mathematical and theoretical lens.
 <div class="flex-container">
 <div class="project-icon"> <img src="static/meowdy.png" alt="MEOWDY Sprite"> </div>
 <div> For a 24-hour hackathon, our team of three chose to build a western-RPG called MEOWDY using Rust 
-and the [Bevy engine](https://bevyengine.org). One of the judges described our project as a 
+and the <a href="https://bevyengine.org">Bevy engine</a>. One of the judges described our project as a 
 "minimum lovable product", and the project won the prize for 
 "Most Entertaining".
 
@@ -41,9 +41,9 @@ and the [Bevy engine](https://bevyengine.org). One of the judges described our p
 
 <div class="flex-container">
 <div class="project-icon"> <img src="static/spaceintracers.png" alt="Space Intracers Sprite"> </div>
-<div> This project is based on the [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
-series, but written in Rust instead of the original C++. This was one of the first pieces of 
-Rust code I wrote.
+<div> This project is based on the <a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">Ray Tracing in One Weekend</a>
+series, but written in Rust instead of the original C++. This was one of the first pieces of Rust
+code I wrote.
 
 *[Project Repo](https://github.com/gememma/space-intracers)*
 </div>
