@@ -37,15 +37,16 @@ and the <a href="https://bevyengine.org">Bevy engine</a>. One of the judges desc
 </div>
 </div>
 
-## Space Intracers
+## raytracer
 
 <div class="flex-container">
-<div class="project-icon"> <img src="static/spaceintracers.png" alt="Space Intracers Sprite"> </div>
-<div> This project is based on the <a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">Ray Tracing in One Weekend</a>
-series, but written in Rust instead of the original C++. This was one of the first pieces of Rust
-code I wrote.
+<div class="project-icon"> <img src="static/spaceintracers.png" alt="raytracer Sprite"> </div>
+<div> This application produces a raytraced image of a 3D scene with various material, object and
+light types. The rendering process is parallelised over 8 threads. Other features include Fresnel
+shading for dielectric material and the option to introduce depth of field to the camera. This is
+the largest Rust project on this page.
 
-*[Project Repo](https://github.com/gememma/space-intracers)*
+*[Project Repo](https://github.com/gememma/raytracer)*
 </div>
 </div>
 
