@@ -15,16 +15,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Install toolchain
-      uses: ructions/toolchain@v2.0.0
-      with:
-        components: rustfmt
-    - name: Cache files
-      uses: Swatinem/rust-cache@v2
-    - name: Build
-      run: cargo build --verbose --locked
-    - name: Run tests
-      run: cargo test --verbose --locked
-    - name: Check formatting
-      run: cargo fmt --check
+      - uses: actions/checkout@v3
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@1.69.0
+        with:
+          components: rustfmt
+      - name: Cache files
+        uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build --verbose --locked
+      - name: Run tests
+        run: cargo test --verbose --locked
+      - name: Check formatting
+        run: cargo fmt --check
