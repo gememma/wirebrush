@@ -11,6 +11,16 @@ env:
   RUSTFLAGS: -Dwarnings
 
 jobs:
+  cancel-previous:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Cancel previous runs of this workflow that have not yet completed
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+
   build:
     runs-on: ubuntu-latest
 
@@ -28,3 +38,43 @@ jobs:
       run: cargo test --verbose --locked
     - name: Check formatting
       run: cargo fmt --check
+
+  check-nix:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clone the repository
+      - name: Clone
+        uses: actions/checkout@v3
+
+      # Install Nix onto the runner
+      - name: Install Nix
+        uses: cachix/install-nix-action@v22
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Check the Nix flake to make sure everything looks OK at a surface level
+      - name: Check Nix Flake
+        run: |
+          nix -L flake check
+
+      # Regenerate Cargo.nix so we can see if its contents are out of date
+      - name: Regenerate Cargo.nix
+        run: |
+          nix -L develop -c cargo2nix -s > Cargo.nix
+          nix -L fmt
+
+      # Check whether Cargo.nix changed as a result of the previous step
+      - name: Verify Changed Files
+        uses: tj-actions/verify-changed-files@v16
+        id: verify-changed-files
+        with:
+          files: |
+            Cargo.nix
+
+      # If Cargo.nix changed, fail the job
+      - name: Fail Job If Cargo.nix Is Outdated
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          echo "Cargo.nix is outdated! Please run `cargo2nix && nix fmt` from within the Nix devShell."
+          exit 1
