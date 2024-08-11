@@ -1,4 +1,4 @@
-# Projects
+# Personal Projects
 
 ## wirebrush
 
@@ -47,17 +47,5 @@ shading for dielectric material and the option to introduce depth of field to th
 the largest Rust project on this page.
 
 *[Project Repo](https://github.com/gememma/raytracer)*
-</div>
-</div>
-
-## Plantpedia
-
-<div class="flex-container">
-<div class="project-icon"> <img src="static/plantpedia.png" alt="Plantpedia Sprite"> </div>
-<div> Plantpedia is a pet project written in Python that was created after I couldn't find exactly 
-what I was looking for to help take care of my plants. I was also fairly new to using CLI tools, 
-so exploring text-based menus was a bonus.
-
-*[Project Repo](https://github.com/gememma/plantpedia)*
 </div>
 </div>
